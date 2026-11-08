@@ -1,17 +1,28 @@
 # Decay Value Prediction
 
-XGBoost predicts the base-10 logarithm of a decay branching fraction. The best run used one selected diagram and pseudo-Huber loss on all 3,449 rows in the training CSV. Pooled out-of-fold scores were **$R^2$ = 0.80135**, **RMSE = 0.69582 dex**, and **MAE = 0.47454 dex**.
+XGBoost predicts the base-10 logarithm of a decay branching fraction. The best observed run used one selected diagram, pseudo-Huber loss with `huber_slope = 0.8`, and 100 Optuna trials per outer fold. It reached **$R^2$ = 0.80143** on held-out predictions for all 3,449 training rows.
 
 ## Run
 
-Keep `All PDG Training Decays 2026.csv` and `All PDG Decays 2026.csv` beside the script and run from the repository root.
+Keep `All PDG Training Decays 2026.csv` and `All PDG Decays 2026.csv` beside the script. Install the benchmark dependencies and run the 100-trial GPU configuration from the repository root.
 
 ```bash
 pip install numpy pandas xgboost==3.2.0 optuna==4.9.0 scikit-learn==1.6.1
-python BDecay_XGBoost_NewPDG_All_Unfiltered_Optuna.py
+python BDecay_XGBoost_NewPDG_All_Unfiltered_Optuna.py --device cuda --trials 100 --output xgb_new_pdg_gpu100
 ```
 
-On Kaggle, attach the same two CSVs and paste the [standalone script](BDecay_XGBoost_NewPDG_All_Unfiltered_Optuna.py) into a code cell. The output folder `xgb_new_pdg_all_unfiltered` contains held-out predictions, fold assignments, metrics, and the final model.
+For the default 40-trial CPU run, execute the script without arguments. On Kaggle, attach the same two CSVs, enable a GPU, paste the [standalone script](BDecay_XGBoost_NewPDG_All_Unfiltered_Optuna.py) into a code cell, and set `n_trials` to `100` and `device` to `'cuda'` in `Config`. Outputs include held-out predictions, fold assignments, metrics, and the final model.
+
+## Results
+
+| Run | Trials per outer fold | Pseudo-Huber slope | Out-of-fold $R^2$ | RMSE (dex) | MAE (dex) |
+| --- | ---: | --- | ---: | ---: | ---: |
+| CPU baseline | 40 | Fixed at 0.8 | 0.80135 | 0.69582 | 0.47454 |
+| GPU control | 40 | Fixed at 0.8 | 0.79897 | 0.69999 | 0.47596 |
+| **GPU, longer search** | **100** | **Fixed at 0.8** | **0.80143** | **0.69569** | **0.47157** |
+| GPU, slope tuning | 100 | Tuned in the inner folds | 0.79799 | 0.70168 | 0.47417 |
+
+The 100-trial fixed-slope run improved $R^2$ by 0.00246 over the same-device control, which used the first 40 trials of that search. The gain over the earlier CPU baseline was about 0.00007.
 
 ## CSV columns used
 
@@ -172,4 +183,4 @@ The script matches each training row by `Decay Description` and `Decay Value` to
 
 ## Validation
 
-The score comes from five source-grouped outer folds. Each outer fold runs 40 Optuna trials using three grouped inner folds. Target scaling is fitted on the training split. Related channels with different source IDs and decays of the same parent species can still appear across folds. The reported score includes the original flagged rows and measures performance under this split protocol.
+The reported scores come from five source-grouped outer folds. Each Optuna study uses three grouped inner folds. Target scaling is fitted on the training split. Related channels with different source IDs and decays of the same parent species can still appear across folds. The scores include the original flagged rows and measure performance under this split protocol.
