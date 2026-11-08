@@ -82,7 +82,6 @@ Diagram 3 Relative Amplitude
 **Initial Particle**
 
 ```text
-Initial Particle Name
 Initial Particle Multiplicity
 Initial Particle Type
 Initial Particle Mass
@@ -99,7 +98,6 @@ Initial Particle Structure As Int
 **Intermidiate Particle** (CSV spelling)
 
 ```text
-Intermidiate Particle Name
 Intermidiate Particle Multiplicity
 Intermidiate Particle Type
 Intermidiate Particle Mass
@@ -116,7 +114,6 @@ Intermidiate Particle Structure As Int
 **Product Particle 1**
 
 ```text
-Product Particle 1 Name
 Product Particle 1 Multiplicity
 Product Particle 1 Type
 Product Particle 1 Mass
@@ -133,7 +130,6 @@ Product Particle 1 Structure As Int
 **Product Particle 2**
 
 ```text
-Product Particle 2 Name
 Product Particle 2 Multiplicity
 Product Particle 2 Type
 Product Particle 2 Mass
@@ -150,7 +146,6 @@ Product Particle 2 Structure As Int
 **Product Particle 3**
 
 ```text
-Product Particle 3 Name
 Product Particle 3 Multiplicity
 Product Particle 3 Type
 Product Particle 3 Mass
@@ -167,7 +162,6 @@ Product Particle 3 Structure As Int
 **Product Particle 4**
 
 ```text
-Product Particle 4 Name
 Product Particle 4 Multiplicity
 Product Particle 4 Type
 Product Particle 4 Mass
@@ -181,7 +175,9 @@ Product Particle 4 Quantum P
 Product Particle 4 Structure As Int
 ```
 
-Particle names identify occupied slots. Product multiplicities expand repeated daughters. Initial and intermediate multiplicities are checked for validity. The `Structure As Int` fields supply net `u`, `d`, `s`, `c`, and `b` counts. The encoder produces 1,285 features, including derived phase-space and quantum-number balance features.
+Product multiplicities expand repeated daughters. Initial and intermediate multiplicities are checked for validity. The `Structure As Int` fields supply net `u`, `d`, `s`, `c`, and `b` counts. The encoder produces 1,285 features, including derived phase-space and quantum-number balance features.
+
+**Presence check during preprocessing** — The code checks whether a particle name is present to mark the corresponding slot as occupied.
 
 **Target, grouping, and audit columns**
 

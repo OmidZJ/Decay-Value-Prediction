@@ -82,7 +82,6 @@ Diagram 3 Relative Amplitude
 **ذرهٔ اولیه**
 
 ```text
-Initial Particle Name
 Initial Particle Multiplicity
 Initial Particle Type
 Initial Particle Mass
@@ -99,7 +98,6 @@ Initial Particle Structure As Int
 **ذرهٔ میانی** (نام ستون‌ها مطابق املای فایل CSV است)
 
 ```text
-Intermidiate Particle Name
 Intermidiate Particle Multiplicity
 Intermidiate Particle Type
 Intermidiate Particle Mass
@@ -116,7 +114,6 @@ Intermidiate Particle Structure As Int
 **ذرهٔ محصول ۱**
 
 ```text
-Product Particle 1 Name
 Product Particle 1 Multiplicity
 Product Particle 1 Type
 Product Particle 1 Mass
@@ -133,7 +130,6 @@ Product Particle 1 Structure As Int
 **ذرهٔ محصول ۲**
 
 ```text
-Product Particle 2 Name
 Product Particle 2 Multiplicity
 Product Particle 2 Type
 Product Particle 2 Mass
@@ -150,7 +146,6 @@ Product Particle 2 Structure As Int
 **ذرهٔ محصول ۳**
 
 ```text
-Product Particle 3 Name
 Product Particle 3 Multiplicity
 Product Particle 3 Type
 Product Particle 3 Mass
@@ -167,7 +162,6 @@ Product Particle 3 Structure As Int
 **ذرهٔ محصول ۴**
 
 ```text
-Product Particle 4 Name
 Product Particle 4 Multiplicity
 Product Particle 4 Type
 Product Particle 4 Mass
@@ -181,7 +175,9 @@ Product Particle 4 Quantum P
 Product Particle 4 Structure As Int
 ```
 
-نام ذره مشخص می‌کند کدام جایگاه پر است. تعداد ذرات محصول تعیین می‌کند هر ذرهٔ تکراری چند بار در ورودی قرار بگیرد. اعتبار تعداد ذرات اولیه و میانی نیز بررسی می‌شود. از ستون‌های `Structure As Int` تعداد خالص کوارک‌های `u`، `d`، `s`، `c` و `b` به دست می‌آید. کد ۱٬۲۸۵ ویژگی می‌سازد که ویژگی‌های مشتق‌شده از فضای فاز و توازن اعداد کوانتومی را هم شامل می‌شوند.
+تعداد ذرات محصول تعیین می‌کند هر ذرهٔ تکراری چند بار در ورودی قرار بگیرد. اعتبار تعداد ذرات اولیه و میانی نیز بررسی می‌شود. از ستون‌های `Structure As Int` تعداد خالص کوارک‌های `u`، `d`، `s`، `c` و `b` به دست می‌آید. کد ۱٬۲۸۵ ویژگی می‌سازد که ویژگی‌های مشتق‌شده از فضای فاز و توازن اعداد کوانتومی را هم شامل می‌شوند.
+
+**بررسی حضور ذره در پیش‌پردازش** — کد فقط بررسی می‌کند که نام ذره وارد شده باشد تا مشخص کند کدام جایگاه پر است.
 
 **ستون‌های هدف، گروه‌بندی و بررسی داده**
 
