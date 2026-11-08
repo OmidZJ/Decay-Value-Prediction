@@ -38,6 +38,17 @@ Both runs used CPU, 40 Optuna trials per outer fold, the same 1,285 selected-dia
 
 The last two rows use predictions from the same all-particle run. On the same 751 open-bottom rows, training on all particles raised $R^2$ by 0.00921. The B-only run completed in 12.2 minutes, including the separate deployment search.
 
+#### How the B rows are held out
+
+In each outer fold, the all-particle model is fitted from scratch in one training stage on both B rows and other decay rows from the training portion of that fold. The B-only model uses the same training B rows. Both fits and their Optuna searches use only rows from the training portion.
+
+| Fold 1 example | Training rows | Held-out rows used for the B score |
+| --- | --- | --- |
+| B-only model | 606 B rows | 145 B rows |
+| All-particle model | The same 606 B rows + 2,153 other decay rows | The same 145 B rows |
+
+Each B row contributes one held-out prediction per model. The B scores pool those predictions across all five outer folds.
+
 ## CSV columns used
 
 ### `All PDG Training Decays 2026.csv`
