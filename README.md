@@ -28,26 +28,15 @@ The 100-trial fixed-slope run improved $R^2$ by 0.00246 over the same-device con
 
 ### CPU comparison on all rows and on B decays
 
-Both runs used CPU, 40 Optuna trials per outer fold, the same 1,285 selected-diagram features, and `huber_slope = 0.8`. The B-only run restricted training and inner validation to open-bottom mesons and baryons. Both models were evaluated on the same 751 open-bottom rows using the same outer fold assignments. All 120 flagged rows in this cohort were retained.
+Both models used 40 Optuna trials per outer fold, the same 1,285 model inputs, and `huber_slope = 0.8`. The B cohort contains open-bottom meson and baryon decays, including all 120 flagged rows. In each fold, both models start from scratch and tune on their training rows. The scores pool held-out predictions across all five folds.
 
-| Training scope | Held-out rows scored | Out-of-fold $R^2$ | RMSE (dex) | MAE (dex) |
-| --- | --- | ---: | ---: | ---: |
-| Open-bottom only (751 rows) | 751 open-bottom rows | 0.74609 | 0.63591 | 0.46307 |
-| All particles (3,449 rows) | All 3,449 rows | 0.80135 | 0.69582 | 0.47454 |
-| All particles (3,449 rows) | The same 751 open-bottom rows | **0.75530** | **0.62427** | **0.45879** |
+| Model and score | Fold 1 example | Rows scored across all folds | $R^2$ | RMSE (dex) | MAE (dex) |
+| --- | --- | --- | ---: | ---: | ---: |
+| B-only model, B score | Train on 606 B rows<br>Score 145 B rows | 751 B rows | 0.74609 | 0.63591 | 0.46307 |
+| All-particle model, overall score | Train on 606 B + 2,153 other rows<br>Score all 690 held-out rows | All 3,449 rows | 0.80135 | 0.69582 | 0.47454 |
+| All-particle model, B score | Use the same fit as above<br>Score the same 145 B rows as the B-only model | The same 751 B rows | **0.75530** | **0.62427** | **0.45879** |
 
-The last two rows use predictions from the same all-particle run. On the same 751 open-bottom rows, training on all particles raised $R^2$ by 0.00921. The B-only run completed in 12.2 minutes, including the separate deployment search.
-
-#### How the B rows are held out
-
-In each outer fold, the all-particle model is fitted from scratch in one training stage on both B rows and other decay rows from the training portion of that fold. The B-only model uses the same training B rows. Both fits and their Optuna searches use only rows from the training portion.
-
-| Fold 1 example | Training rows | Held-out rows used for the B score |
-| --- | --- | --- |
-| B-only model | 606 B rows | 145 B rows |
-| All-particle model | The same 606 B rows + 2,153 other decay rows | The same 145 B rows |
-
-Each B row contributes one held-out prediction per model. The B scores pool those predictions across all five outer folds.
+The last two rows come from one all-particle run. Scoring only its held-out B predictions gives a direct comparison with the B-only model. On those rows, training on all particles raised $R^2$ by 0.00921. The B-only run took 12.2 minutes, including the separate deployment search.
 
 ## CSV columns used
 
