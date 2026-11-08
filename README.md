@@ -24,6 +24,17 @@ For the default 40-trial CPU run, execute the script without arguments. On Kaggl
 
 The 100-trial fixed-slope run improved $R^2$ by 0.00246 over the same-device control, which used the first 40 trials of that search. The gain over the earlier CPU baseline was about 0.00007.
 
+### Open-bottom decays
+
+Both models were evaluated on the same 751 open-bottom rows using the same outer fold assignments. The B-only run restricted training and inner validation to open-bottom mesons and baryons. Both runs used the selected-diagram features, CPU, 40 Optuna trials per outer fold, and `huber_slope = 0.8`. All 120 flagged rows in this cohort were retained.
+
+| Training scope | Rows available for training | Held-out B rows scored | Out-of-fold $R^2$ | RMSE (dex) | MAE (dex) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| All particles | 3,449 | 751 | **0.75530** | **0.62427** | **0.45879** |
+| Open-bottom only | 751 | 751 | 0.74609 | 0.63591 | 0.46307 |
+
+Training on all particles improved $R^2$ by 0.00921 on the open-bottom cohort. The B-only run completed in 12.2 minutes, including the separate deployment search.
+
 ## CSV columns used
 
 ### `All PDG Training Decays 2026.csv`
