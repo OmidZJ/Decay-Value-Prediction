@@ -28,7 +28,13 @@ The 100-trial fixed-slope run improved $R^2$ by 0.00246 over the same-device con
 
 ### CPU comparison on all rows and on B decays
 
-Both models used 40 Optuna trials per outer fold, the same 1,285 model inputs, and `huber_slope = 0.8`. The B cohort contains open-bottom meson and baryon decays, including all 120 flagged rows. In each fold, both models start from scratch and tune on their training rows. The scores pool held-out predictions across all five folds.
+Both models used 40 Optuna trials per outer fold, the same 1,285 model inputs, and `huber_slope = 0.8`. The B cohort contains open-bottom meson and baryon decays, including all 120 flagged rows.
+
+#### How the folds work
+
+We split the data into five outer folds, keeping rows from the same PDG source group together. Each fold takes a turn as the test set. The model is fitted from scratch on the other four folds, using three inner folds within those training rows for Optuna tuning.
+
+The B-only run takes just the B rows from the same split. That gives both models the same B training rows and the same held-out B test rows in each fold. The reported scores pool the held-out predictions from all five folds, with one prediction per evaluated row.
 
 | Model and score | Fold 1 example | Rows scored across all folds | $R^2$ | RMSE (dex) | MAE (dex) |
 | --- | --- | --- | ---: | ---: | ---: |
@@ -36,7 +42,13 @@ Both models used 40 Optuna trials per outer fold, the same 1,285 model inputs, a
 | All-particle model, overall score | Train on 606 B + 2,153 other rows<br>Score all 690 held-out rows | All 3,449 rows | 0.80135 | 0.69582 | 0.47454 |
 | All-particle model, B score | Use the same fit as above<br>Score the same 145 B rows as the B-only model | The same 751 B rows | **0.75530** | **0.62427** | **0.45879** |
 
-The last two rows come from one all-particle run. Scoring only its held-out B predictions gives a direct comparison with the B-only model. On those rows, training on all particles raised $R^2$ by 0.00921. The B-only run took 12.2 minutes, including the separate deployment search.
+#### Results in three cases
+
+1. **Train on B, score on B.** The B-only model reached $R^2$ = **0.74609** on the 751 held-out B rows.
+2. **Train on all particles, score on all particles.** The all-particle model reached $R^2$ = **0.80135** across all 3,449 held-out rows.
+3. **Train on all particles, score on B.** Using the same predictions as in case 2, we calculated $R^2$ on the same 751 B rows as in case 1. The score was **0.75530**.
+
+Adding other decay types to the training data raised $R^2$ by 0.00921 on the same B rows. The B-only run took 12.2 minutes, including the separate deployment search.
 
 ## CSV columns used
 
